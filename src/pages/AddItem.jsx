@@ -11,6 +11,9 @@ import Card from "../containers/Card";
 import PageTitle from "../components/PageTitle";
 import { useDispatch } from "react-redux";
 import { addCollectionItem } from "../store/ItemsCollection/actions";
+import { addNewItem } from "../store/ItemsCollection/reducer";
+import { addCollectionAction } from "../store/Collections/actions";
+import HandleItemInfo from "../containers/HandleItemInfo";
 
 function AddItem() {
   const uniqueId = useId();
@@ -24,19 +27,9 @@ function AddItem() {
     photo: "https://picsum.photos/200/300",
   });
 
-  function addTitle(value) {
-    setCollectionItem({ ...collectionItem, title: value });
-  }
-
-  function changeNewItemDescription(value) {
-    setCollectionItem({ ...collectionItem, description: value });
-  }
-  function changeItemCollection(value) {
-    setCollectionItem({ ...collectionItem, collection: value });
-  }
-
-  const addItem = () => {
-    dispatch(addCollectionItem(collectionItem));
+  const addItem = (collectionItem, selectedOptionValue) => {
+    dispatch(addNewItem(collectionItem));
+    dispatch(addCollectionAction(selectedOptionValue));
     navigate("/");
   };
   return (
