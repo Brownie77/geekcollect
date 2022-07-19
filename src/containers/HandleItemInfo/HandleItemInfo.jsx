@@ -10,11 +10,9 @@ import PageTitle from "../../components/PageTitle";
 import Button from "../../components/Button";
 import Flex from "../../components/Flex";
 import { allCollectionsSelector } from "../../store/Collections/selectors";
-import uuid from "react-uuid";
 
 function HandleItemInfo({
   itemCollection,
-  id,
   selectedItem,
   pageTitle,
   buttonText,
@@ -22,7 +20,6 @@ function HandleItemInfo({
 }) {
   const initialCollectionItem = {
     price: null,
-    id: uuid(),
     title: "",
     collection: null,
     description: "",

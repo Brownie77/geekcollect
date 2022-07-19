@@ -5,6 +5,7 @@ import {
   setSelectedItemIdAction,
   changeCollectionItem,
 } from "../../store/ItemsCollection/actions";
+import { changeItem } from "../../store/ItemsCollection/reducer";
 import { addCollectionAction } from "../../store/Collections/actions";
 import { collectionDetailSelector } from "../../store/Collections/selectors";
 import { selectedItemInfoSelector } from "../../store/ItemsCollection/selectors";
@@ -16,7 +17,7 @@ function ChangeItem() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  // dispatch(setSelectedItemIdAction(id));
+  dispatch(setSelectedItemIdAction(id));
   const selectedItem = useSelector(selectedItemInfoSelector); //TODO change name - "initial item info"
   const itemCollection = useSelector((state) =>
     collectionDetailSelector(
@@ -28,8 +29,8 @@ function ChangeItem() {
   useEffect(() => {
     dispatch(setSelectedItemIdAction(id));
   }, [id, dispatch]);
-  const changeItem = (collectionItem, selectedOptionValue) => {
-    dispatch(changeCollectionItem(collectionItem));
+  const changeItemCollection = (collectionItem, selectedOptionValue) => {
+    dispatch(changeItem(collectionItem));
     dispatch(addCollectionAction(selectedOptionValue));
     navigate("/");
   };
@@ -40,7 +41,7 @@ function ChangeItem() {
           selectedItem={selectedItem}
           itemCollection={itemCollection}
           pageTitle={"Edit Your Collection Item"}
-          onSubmit={changeItem}
+          onSubmit={changeItemCollection}
           buttonText={"Change"}
         />
       ) : (

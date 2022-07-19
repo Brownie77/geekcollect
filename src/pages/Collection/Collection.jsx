@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../../containers/Card";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import PageTitle from "../../components/PageTitle";
 import {
   CollectionContainer,
   MockImage,
@@ -8,14 +9,32 @@ import {
   EmptyTitle,
 } from "./styled";
 import noElementsImage from "../../assets/images/svg/father-and-daughter.svg";
-import { collectionSelector } from "../../store/ItemsCollection/selectors";
+import {
+  collectionSelector,
+  CollectionItemStatusSelector,
+  CollectionItemErrorSelector,
+} from "../../store/ItemsCollection/selectors";
+import { fetchItems } from "../../store/ItemsCollection/reducer";
 
 function Collection() {
+  const collectionFetchStatus = useSelector(CollectionItemStatusSelector);
+  const collectionFetchError = useSelector(CollectionItemErrorSelector);
   const collectionItems = useSelector(collectionSelector);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchItems());
+  }, [dispatch]);
   return (
     <CollectionContainer>
-      {collectionItems.length ? (
+      {collectionFetchStatus === "loading" && (
+        <PageTitle>Items is loading, please wait</PageTitle>
+      )}
+      {collectionFetchError && (
+        <PageTitle>An error occured: {collectionFetchError}</PageTitle>
+      )}
+      {collectionItems && collectionItems.length ? (
         collectionItems.map((item) => {
+          console.log(item);
           return (
             <Card
               price={item.price}
